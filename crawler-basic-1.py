@@ -1,10 +1,6 @@
 import requests
-from config import global_config
-from spider import SpiderSession
 from lxml import etree
-from cookie import load_cookie
-from bs4 import BeautifulSoup
-
+from login.cookie import load_cookie
 
 url = "http://www.glidedsky.com/level/web/crawler-basic-1"
 headers = {
@@ -16,7 +12,7 @@ data = {
     "_token": "XntZhdCtc2c2xdRDLTs4M1Q3OzSFHvSFb7QEnuW6"
 }
 cookie = load_cookie()
-response = requests.get('http://www.glidedsky.com/level/web/crawler-basic-1', headers=headers,cookies=cookie)
+response = requests.get('http://www.glidedsky.com/level/web/crawler-basic-1', headers=headers, cookies=cookie)
 
 x_data = etree.HTML(response.text)
 nums = x_data.xpath("//div[@class='col-md-1']/text()")
