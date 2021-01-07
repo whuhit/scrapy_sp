@@ -21,6 +21,6 @@ for i in range(1, 1001):
     x_data = etree.HTML(response.text)
     nums = x_data.xpath("//div[@class='col-md-1']/text()")
     nums = [int(x.strip()) for x in nums]
-    # print(nums)
+    print(nums)
     sum_ += sum(nums)
 print(sum_)
