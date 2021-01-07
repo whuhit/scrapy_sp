@@ -39,7 +39,6 @@ def get_cookie():
         data.update(_token=token)
         headers.update(origin=url_home, referer=url_login)
         login_post = s.post(url_login, headers=headers, data=data)
-        print(login_post.cookies)
         cookie = login_post.cookies.get_dict()
         cookie = json.dumps(cookie, indent=4)
         with open(path, "w") as f:

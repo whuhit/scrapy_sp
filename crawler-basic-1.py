@@ -15,15 +15,11 @@ data = {
     'password': '19941025qy1111',
     "_token": "XntZhdCtc2c2xdRDLTs4M1Q3OzSFHvSFb7QEnuW6"
 }
-# session = requests.Session()
-# session.post(url, headers=headers, data=data)
-# 登录后，我们需要获取另一个网页中的内容
-# print(session.cookies)
 cookie = load_cookie()
 response = requests.get('http://www.glidedsky.com/level/web/crawler-basic-1', headers=headers,cookies=cookie)
-print(response.status_code)
-print(response.text)
 
-rows = BeautifulSoup(response.text, 'lxml').find_all('div', class_="col-md-1")
-score = sum(int(row.text) for row in rows)
-print(score)
+x_data = etree.HTML(response.text)
+nums = x_data.xpath("//div[@class='col-md-1']/text()")
+nums = [int(x.strip()) for x in nums]
+print(nums)
+print(sum(nums))
