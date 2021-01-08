@@ -43,7 +43,7 @@ def crawler(paras):
 if __name__ == '__main__':
     paras_list = []
     ips = []
-    for line in open("config/ip2.txt"):
+    for line in open("config/ip3.txt"):
         ips.append(line.strip())
 
     alerady = []
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     # exit()
     for i, page in enumerate(not_yet):
         url = f"http://www.glidedsky.com/level/web/crawler-ip-block-1?page={page}"
-        ip = ips[i+1700]
+        ip = ips[i+700]
         paras_list.append([url, ip])
     pool = ThreadPoolExecutor(max_workers=30)
     for result in pool.map(crawler, paras_list):
