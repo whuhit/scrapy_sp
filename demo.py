@@ -9,3 +9,4 @@ for line in open(path):
     if "[" in line:
         res += int(line.split()[1])
 print(res)
+
