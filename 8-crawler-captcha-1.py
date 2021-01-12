@@ -45,14 +45,15 @@ class Crawler:
 
     def __init__(self):
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        chrome_options = webdriver.ChromeOptions()  # 启动浏览器
-        chrome_options.add_argument(
-            '--test-type --ignore-certificate-errors')  # 关闭https验证
-        chrome_options.add_experimental_option(
-            'useAutomationExtension', False)  # 关闭 自动化提示
-        chrome_options.add_experimental_option(
-            "excludeSwitches", ['enable-automation'])
-        self.driver = webdriver.Chrome(chrome_options=chrome_options)
+        # chrome_options = webdriver.ChromeOptions("/Users/yang/Downloads/chromedriver_mac64/chromedriver")  # 启动浏览器
+        # chrome_options.add_argument(
+        #     '--test-type --ignore-certificate-errors')  # 关闭https验证
+        # chrome_options.add_experimental_option(
+        #     'useAutomationExtension', False)  # 关闭 自动化提示
+        # chrome_options.add_experimental_option(
+        #     "excludeSwitches", ['enable-automation'])
+        self.driver = webdriver.Chrome(
+            "/Users/yang/Downloads/chromedriver_mac64/chromedriver")
         self.driver.maximize_window()
         self.login(cookies)
         self.img_dir = 'image'
@@ -221,10 +222,7 @@ class Crawler:
         loginurl = "http://www.glidedsky.com/login"
         target_url = "http://www.glidedsky.com/"
 
-        cookies = {
-            "XSRF-TOKEN": "eyJpdiI6IkFNWGVyVUFVc2F4OGhoMGNzQURtK2c9PSIsInZhbHVlIjoiU3ZwSnNNVTBnNkVvTG8wZXBVTWZPdHFTeDJVKytja2dnSzUxVXZSNWVEZGtmZkhzYjJyVU5HRldFQ1RnK3g5cSIsIm1hYyI6IjhlYzM5N2YzZWU1YzQ2Nzg0YjY2MmMzNzMzMTZhYjQ4MjMyZGQ5NzBhMDRlNjMwNzc5MTQ0NWFlMjFkYzAyNzYifQ%3D%3D",
-            "glidedsky_session": "eyJpdiI6Ik5lMk16ZnJNU3JZdkt6NFBcL2Y2VTRBPT0iLCJ2YWx1ZSI6IjZHY0NsK01jdlI3SElQb3MxUjZpcHorOWozR0lKZEdZbkR2UDlGR3p2MWFEdkFRYko2dTFGYWNGMVwvREhcL0RxSyIsIm1hYyI6IjE2Yjc1YWIxYTY4MzM2YTExNjBmOTI4M2VmNWEyMzFmNTRiMWJhMzMyNGQxODZhZDc2ZDZiZjQ1MWY0Mzc3MDQifQ%3D%3D"
-        }
+        cookies = json.load(open('login/cookie_login.json'))
 
         self.driver.get(loginurl)
         self.driver.delete_all_cookies()
@@ -254,6 +252,8 @@ class Crawler:
                     with open(result_path, 'w') as f:
                         json.dump(dt, f)
                     break
+                if _ >5:
+                    exit(9)
 
     def __del__(self):
         self.driver.quit()
@@ -261,7 +261,12 @@ class Crawler:
 
 
 if __name__ == '__main__':
-    kill_process('chromedriver.exe')  # 关闭残留进程
+    # kill_process('/Users/yang/Downloads/chromedriver_mac64/chromedriver')  #
+    # 关闭残留进程
+    from login import get_cookie
+
+    get_cookie()
+    
     result_path = f'crawler-captcha-1.json'
     if not os.path.exists(result_path):
         with open(result_path, 'w') as f:

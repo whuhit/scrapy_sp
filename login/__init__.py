@@ -4,4 +4,4 @@
 # @Author  : yangqiang
 # @File    : __init__.py.py
 # @Software: PyCharm
-from login.login import login_with_passwd, login_with_cookie
+from login.login import login_with_passwd, login_with_cookie, get_cookie

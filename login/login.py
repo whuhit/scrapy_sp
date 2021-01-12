@@ -48,7 +48,7 @@ def get_cookie():
             data=data)
         cookie = login_post.cookies.get_dict()
         cookie = json.dumps(cookie, indent=4)
-        with open("cookie_login.json", "w") as f:
+        with open("login/cookie_login.json", "w") as f:
             f.write(cookie)
 
 
