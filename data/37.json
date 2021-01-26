@@ -1,0 +1,10 @@
+{
+ "code": 200,
+ "msg": "success",
+ "data": {
+  "province_info": null,
+  "region_list": null,
+  "brand_list": [],
+  "site_list": null
+ }
+}

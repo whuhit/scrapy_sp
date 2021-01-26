@@ -42,12 +42,12 @@ proxies = {
 }
 
 # https://api2.service.order.mi.com/aftersale/sitelist?province_id=3&t=1610179994
-url = f"https://api2.service.order.mi.com/aftersale/sitelist?province_id=&t={int(time.time())}"
-r = requests.get(url,headers=headers)
-if r.status_code == 200:
-    with open(f"data/0.json", 'w') as f:
-        f.write(r.text)
-exit(1)
+# url = f"https://api2.service.order.mi.com/aftersale/sitelist?province_id=&t={int(time.time())}"
+# r = requests.get(url,headers=headers)
+# if r.status_code == 200:
+#     with open(f"data/0.json", 'w') as f:
+#         f.write(r.text)
+# exit(1)
 for i in range(1, 40):
     url = f"https://api2.service.order.mi.com/aftersale/sitelist?province_id={i}&t={int(time.time())}"
     r = requests.get(url,headers=headers, proxies=proxies)
@@ -55,7 +55,7 @@ for i in range(1, 40):
         with open(f"data/{i}.json", 'w') as f:
             f.write(r.text)
 print(r)
-exit()
+# exit()
 
 reg1 = "var mihomeData=(.*);"
 res1=json.loads(re.findall(reg1, r)[0])
@@ -85,5 +85,5 @@ for key in res2:
             with open("mijia.json", "a+") as f:
                 json.dump(mijia, f, ensure_ascii=True)
                 f.write("\n")
-# df = pd.read_json("mijia.json", lines=True, encoding="UTF-8")
-# df.to_excel("mijia.xlsx")
+df = pd.read_json("mijia.json", lines=True, encoding="UTF-8")
+df.to_excel("mijia.xlsx")

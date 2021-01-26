@@ -1,7 +1,7 @@
 proxyHost = "http-dyn.abuyun.com"
 proxyPort = "9020"
-proxyUser = "H73I853PG0X5191D"
-proxyPass = "575793DC6FB278F2"
+proxyUser = "H1A59P91061009GD"
+proxyPass = "4B3BED3EB512C474"
 
 proxyMeta = f"http://{proxyUser}:{proxyPass}@{proxyHost}:{proxyPort}"
 

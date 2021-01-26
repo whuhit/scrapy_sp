@@ -8,7 +8,7 @@ from lxml import etree
 from login import login_with_passwd
 from ip import headers
 from concurrent.futures import ThreadPoolExecutor
-from easyPlog import Plog
+from loguru import logger
 import re
 import base64
 from tempfile import TemporaryFile
@@ -21,20 +21,14 @@ def get_real(chars, number_list, font_map):
         sixteen_str = int(char.encode('unicode-escape').decode()[2:], 16)
         res.append(str(number_list.index(font_map[sixteen_str])))
     return int(''.join(res))
-    # print(sixteen_str)
-    # print(font_map[int(sixteen_str[0], 16)])
 
 
-
+@logger.catch
 def spider(url):
     response = session.get(url, headers=headers)
-    if response.status_code != 200:
-        print(response.status_code)
-        return 0
-    font_face = re.findall('base64,(.*?)\)', response.text)
+    font_face = re.findall(r'base64,(.*?)\)', response.text)
     with TemporaryFile() as f:
         f.write(base64.b64decode(font_face[0]))
-        f.seek(0)
         font = TTFont(f)
         number_list = font.getGlyphOrder()[1:11]
         font_map = font.getBestCmap()
@@ -42,24 +36,16 @@ def spider(url):
     x_data = etree.HTML(response.text)
     nums = x_data.xpath("//div[@class='col-md-1']/text()")
     nums = [get_real(x.strip(), number_list, font_map) for x in nums]
-    log.log(url.split('=')[-1], sum(nums), nums)
+    logger.debug("{} {} {}", url.split('=')[-1], sum(nums), nums)
     return sum(nums)
 
 
 if __name__ == '__main__':
     path = "data/6-crawler-font-puzzle-2.txt"
-    already_page = []
-    for line in open(path):
-        if "[" in line:
-            already_page.append(int(line.split()[0]))
-    # print(sum(already_page))
-    # exit()
-
+    # 获取已经爬取过的
+    already_page = set(int(line.split()[0]) for line in open(path) if '[' in line)
     # 没有爬完的
-    not_ready_page = list(range(1, 1001))
-    for page in already_page:
-        not_ready_page.remove(page)
-
+    not_ready_page = set(range(1, 1001)) - already_page
     if not not_ready_page:
         exit(0)
 
@@ -68,12 +54,7 @@ if __name__ == '__main__':
     print(f"剩余待采集页数:{len(urls)}")
 
     session = login_with_passwd()
-    # spider(urls[0])
-    pool = ThreadPoolExecutor(max_workers=5)
-    res = 0
-    log = Plog('data/6-crawler-font-puzzle-2.txt', stream=True)
+    pool = ThreadPoolExecutor(max_workers=12)
+    logger.add('data/6-crawler-font-puzzle-2.txt', format="{message}")
     for result in pool.map(spider, urls):
-        # if result
-        # res += result
         pass
-    print(res)  # 2798506

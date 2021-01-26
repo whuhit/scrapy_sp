@@ -3,17 +3,19 @@
 # @Time    : 2021/1/7 2:09 下午
 # @Author  : yangqiang
 # @File    : login.py
-# @Software: PyCharm
 import requests
 import json
 from lxml import etree
 from ip import headers
 
+email = 'zhifeix@foxmail.com'
+password = '19941025qy1111'
+
 
 def login_with_passwd():
     data = {
-        'email': 'zhifeix@foxmail.com',
-        'password': '19941025qy1111',
+        'email': email,
+        'password': password,
     }
     s = requests.Session()
     # 先通过get获取一次token
@@ -31,8 +33,8 @@ def login_with_passwd():
 
 def get_cookie():
     data = {
-        'email': 'zhifeix@foxmail.com',
-        'password': '19941025qy1111',
+        'email': email,
+        'password': password,
     }
     with requests.Session() as s:
         # 先通过get获取一次token
