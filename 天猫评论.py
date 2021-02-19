@@ -18,7 +18,7 @@ headers = {
     'referer': 'https://detail.tmall.com/item.htm?spm=a1z10.1-b-s.w15914280-23316158322.1.485e5f3bWA66GZ&id=634228151538&scene=taobao_shop&sku_properties=10004:7195672376',
 }
 
-logger.add("天猫—小米11.txt", format="{message}")
+logger.add("天猫—小米11-1000.txt", format="{message}")
 
 def crawler(start_page):
     for page in range(start_page, 1500):
@@ -40,7 +40,7 @@ def crawler(start_page):
     return False
 
 
-start_page = 125
+start_page = 1243
 while start_page:
     start_page = crawler(start_page)
     time.sleep(60)
